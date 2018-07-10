@@ -37,6 +37,3 @@ def solve(s):
     upper = sum(l.isupper() for l in s)
     lower = sum(l.islower() for l in s)
     return [s.lower(),s.upper()][upper>lower]
-if __name__ == '__main__':
-    result = solve(s=input('请输入：'))
-    print(result)
