@@ -34,7 +34,7 @@ h_pool1 = max_pool_2x2(h_cov1)
 # 第二层卷积神网
 w_cov2 = weight_variable([5, 5, 32, 64])
 b_cov2 = bias_variable([64])
-h_cov2 = tf.nn.relu(conv2d(h_pool1,w_cov2)+b_cov2)
+h_cov2 = tf.nn.relu(conv2d(h_pool1, w_cov2)+b_cov2)
 h_pool2 = max_pool_2x2(h_cov2)
 # 密集全连接层
 w_fc1 = weight_variable([7*7*64, 1024])
@@ -65,7 +65,7 @@ for i in range(20000):
         train_accuracy = Accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
         print('step %d,training accuracy %g' % (i, train_accuracy))
 #    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
-print('test accuracy %g'% Accuracy.eval(feed_dict={x:mnist.test.images, y_:mnist.test.labels,keep_prob=1.0}))
+print('test accuracy %g' % Accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
 
 
 
