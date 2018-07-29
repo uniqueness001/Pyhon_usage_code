@@ -5,7 +5,13 @@ import tensorflow as tf
 # from tensorflow.contrib.learn.python.learn.datasets.mnist import read_data_sets
 from tensorflow.examples.tutorials.mnist import input_data
 # from keras.datasets import mnist
-mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
+# from keras.utils import np_utils
+# (X_train, y_train), (X_test, y_test) = mnist.load_data()
+# X_train = X_train.reshape(-1, 1, 28, 28)/255.
+# X_test = X_test.reshape(-1, 1, 28, 28)/255.
+# y_train = np_utils.to_categorical(y_train, num_classes=10)
+# y_test = np_utils.to_categorical(y_test, num_classes=10)
+mnist = input_data.read_data_sets('MNIST_data/', one_hot=True)
 # 启动图计算
 sess = tf.InteractiveSession()
 # 占位符，None表示其值（图片个数）大小不定，784表示是一张MNIST展开图片的维度，10表示one-hot向量，代表对应MNIST图片的类别
@@ -13,7 +19,7 @@ x = tf.placeholder('float', shape=[None, 784])
 y_ = tf.placeholder('float', shape=[None, 10])
 # 定义初始化权重
 def weight_variable(shape):
-    initial = tf.truncated_normal(shape,stddev=0.1)
+    initial = tf.truncated_normal(shape, stddev=0.1)
     return tf.Variable(initial)
 # 定义偏置项
 def bias_variable(shape):
@@ -56,14 +62,14 @@ train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y_cov, 1), tf.argmax(y_, 1))
 Accuracy = tf.reduce_mean(tf.cast(correct_prediction, 'float'))
 # 初始化我们创建的变量
-sess.run(tf.initialize_all_variables())
+sess.run(tf.global_variables_initializer())
 # 开始训练模型
-for i in range(20000):
+for i in range(1000):
     batch = mnist.train.next_batch(50)
-    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
-    if i % 100 == 0:
+    train_step.run(feed_dict={x: batch[0], y_:  batch[1], keep_prob: 0.5})
+    if i % 50 == 0:
         train_accuracy = Accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
-        print('step %d,training accuracy %g' % (i, train_accuracy))
+        print('step %d,training accuracy %gg' % (i, train_accuracy))
 #    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 print('test accuracy %g' % Accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
 
