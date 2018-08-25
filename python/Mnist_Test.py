@@ -82,7 +82,7 @@ with tf.name_scope('Accuracy'):
 sess.run(tf.global_variables_initializer())
 
 writer = tf.summary.FileWriter('./log', sess.graph)     # write to file
-merge_op = tf.summary.merge_all()                       # operation to merge all summary
+merged = tf.summary.merge_all()                       # operation to merge all summary
 # 开始训练模型
 for i in range(1000):
     batch = mnist.train.next_batch(50)
@@ -91,8 +91,8 @@ for i in range(1000):
     if i % 50 == 0:
         train_accuracy = Accuracy.eval(feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
         print('step %d,training accuracy %g' % (i, train_accuracy))
-        summary_str = sess.run(merge_op, feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
-        writer.add_summary(summary_str, i)
+        # summary_str, _ = sess.run([merged, train_step],  feed_dict={x: batch[0], y_: batch[1], keep_prob: 1.0})
+        # writer.add_summary(summary_str, i)
 #    train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 print('test accuracy %g' % Accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels, keep_prob: 1.0}))
 
